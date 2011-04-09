@@ -1,0 +1,1 @@
+jruby -S rake daily_run

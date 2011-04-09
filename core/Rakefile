@@ -1,0 +1,20 @@
+
+require 'java'
+require 'rake'
+
+gem 'rspec'
+require 'spec/rake/spectask'
+
+desc 'Default: run unit tests.'
+task :default => :tests
+
+desc "Run Tests"
+Spec::Rake::SpecTask.new(:tests) do |t|
+  t.spec_opts = ['--format specdoc']
+  t.spec_files = FileList['test/*_spec.rb']
+end
+
+desc "Quick Testing"
+task :quick do
+  puts "Is Empty"
+end

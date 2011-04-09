@@ -1,0 +1,40 @@
+
+require 'java'
+require 'rake'
+
+gem 'rspec'
+require 'spec/rake/spectask'
+
+require File.dirname(__FILE__) + "/src/extract.rb"
+require File.dirname(__FILE__) + "/src/daily.rb"
+
+desc 'Default: run unit tests.'
+task :default => :tests
+
+desc "Run Tests"
+Spec::Rake::SpecTask.new(:tests) do |t|
+  t.spec_opts = ['--format specdoc']
+  t.spec_files = FileList['test/*_spec.rb']
+end
+
+desc "Clean tables on the DB"
+task :clean_tables do
+  Extract.new.clean_tables
+end
+
+desc "Daily Run"
+task :daily_run do
+  Extract::run
+end
+
+desc "Clean extracts"
+task :clean_logs do
+  #Dir to archive stuff
+  arch = File.dirname(__FILE__) + "/out/../archive"
+  Dir.mkdir arch unless File.exists?(arch)
+
+  Dir[File.dirname(__FILE__) + "/log/*.log"].each do |fname|
+    puts fname
+    FileUtils.mv fname, arch+"/"+fname.split("/").last
+  end
+end

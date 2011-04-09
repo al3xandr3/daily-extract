@@ -1,0 +1,3 @@
+# jvm libs required:
+jsch-20090106.jar
+jtds-1.2.2.jar
